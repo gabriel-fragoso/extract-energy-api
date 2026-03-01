@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Invoice {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  clientNumber   String @map("client_number")
+  referenceMonth String @map("reference_month")
+
+  electricEnergyKwh   Float @map("electric_energy_kwh")
+  electricEnergyValue Float @map("electric_energy_value")
+
+  sceeEnergyKwh   Float @map("scee_energy_kwh")
+  sceeEnergyValue Float @map("scee_energy_value")
+
+  compensatedEnergyKwh   Float @map("compensated_energy_kwh")
+  compensatedEnergyValue Float @map("compensated_energy_value")
+
+  publicLightingValue Float @map("public_lighting_value")
+
+  totalEnergyConsumptionKwh Float @map("total_energy_consumption_kwh")
+  totalValueWithoutGd       Float @map("total_value_without_gd")
+  gdEconomyValue            Float @map("gd_economy_value")
+
+  pdfUrl String? @map("pdf_url")
+
+  @@unique([clientNumber, referenceMonth])
+  @@index([clientNumber])
+  @@index([referenceMonth])
+  @@map("invoices")
+}
